@@ -4,7 +4,7 @@ function getLookUpValue(executionContext){
 const formContext = executionContext.getFormContext();
 var alertCourseDetailsStatus = formContext.getAttribute("grs_alert_course_details").getValue();
 	if(alertCourseDetailsStatus == 1){
-		var lookUpValue = formContext.getAttribute("grs_studentcourse").getValue();	
+		var lookUpValue = formContext.getAttribute("grs_studentcourse").getValue();
 		if(lookUpValue != null){
 			alert("Name of the course: "+lookUpValue[0].name+"\nID of the course: "+lookUpValue[0].id+"\nEntity Type: "+ lookUpValue[0].entityType); // Alert details of current course.
 		    console.log(lookUpValue); // Only visible in console.
@@ -30,7 +30,7 @@ var jobHolderStatus = formContext.getAttribute("grs_are_you_a_job_holder").getVa
 				 "id": "{187FB110-6762-EC11-8F8F-000D3A3E60DC}",
 				 "name": "Not Applicable/Other"
 				}]; // Manually creating the exixting entity for lookup.
-	  formContext.getAttribute("grs_studentcourse").setValue(NA);//Changing lookup value. 
+	  formContext.getAttribute("grs_studentcourse").setValue(NA);//Changing lookup value.
 	}else{
 	  formContext.getAttribute("grs_studentcourse").setValue([]);//Changing lookup value back to empty.
 	}
