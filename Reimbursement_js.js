@@ -33,8 +33,19 @@
             formControls.forEach(element => {
                 element.setDisabled(false);
             });
+            formContext.getControl("statuscode").setDisabled(true);
+            formContext.getControl("ownerid").setDisabled(true);
+            formContext.getControl("cre2e_initiated_date").setDisabled(true);
         }
     }
+
+    // function disableFormOnSave(executionContext){
+    //     const formContext = executionContext.getFormContext();
+    //     let formControls = formContext.ui.controls;
+    //     formControls.forEach(element => {
+    //         element.setDisabled(true);
+    //     });
+    // }
 
 
     function fetchManager(executionContext){
@@ -44,32 +55,40 @@
         "?$select=cre2e_full_name_with_salutation&$expand=parentsystemuserid($select=ownerid,fullname)") /*<---Fetching StudentData*/
         .then(
             function success(result){
+                const managerId = `${result.parentsystemuserid.ownerid}`;
+                const managerName = `${result.parentsystemuserid.fullname}`;
                 const managerLookup =[{
                    "entityType": "systemuser",
-                   "id": `${result.parentsystemuserid.ownerid}`,
-                   "name": `${result.parentsystemuserid.fullname}`
+                   "id": managerId,
+                   "name": managerName
                   }]; //<----creating the manager lookup.
             formContext.getAttribute("cre2e_manager").setValue(managerLookup); /*<---Adding value to manager look field.*/
-
+              //debugger;
                     Xrm.WebApi.retrieveRecord("systemuser",result.parentsystemuserid.ownerid,
                     "?$expand=parentsystemuserid($select=ownerid,fullname)")/*<---Fetching ManagerData*/
                     .then(
-                        function success(result){
-                                const managerLookup =[{
+                        function success(res){
+                                const headManagerLookup =[{
                                     "entityType": "systemuser",
-                                    "id": `${result.parentsystemuserid.ownerid}`,
-                                    "name": `${result.parentsystemuserid.fullname}`
+                                    "id": `${res.parentsystemuserid.ownerid}`,
+                                    "name": `${res.parentsystemuserid.fullname}`
                                 }]; //<----creating the manager lookup.
-                                formContext.getAttribute("cre2e_head_manager").setValue(managerLookup); 
+                                formContext.getAttribute("cre2e_head_manager").setValue(headManagerLookup); /*<---Adding Head manager if owner is not a manager.*/      
                         },
                         function(err){
-                            console.log("Head Manager not found.");
                             console.log(error);
                         }
                     )
+                    if(formContext.getAttribute("cre2e_head_manager").getValue() == null){
+                        const headManagerLookup =[{
+                                    "entityType": "systemuser",
+                                    "id": managerId,
+                                    "name": managerName
+                                }]; //<----creating the manager lookup.
+                        formContext.getAttribute("cre2e_head_manager").setValue(headManagerLookup); /*<---Adding Head manager if owner is a manager where manager of manager is head manager.*/
+                    }
             },
             function (error){
-                console.log("Manager not found.");
                 console.log(error);
             }
         );
