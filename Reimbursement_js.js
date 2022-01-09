@@ -11,10 +11,10 @@
     function InsertOwnerGUID(executionContext){
         //debugger;
         const formContext = executionContext.getFormContext();
-        var StudentInfo = formContext.getAttribute("ownerid").getValue();
-        console.log(StudentInfo);
-        if(StudentInfo != null){
-            formContext.getAttribute("cre2e_applicant_guid").setValue(StudentInfo[0].id);
+        var ownerInfo = formContext.getAttribute("ownerid").getValue();
+        //console.log(ownerInfo);
+        if(ownerInfo != null){
+            formContext.getAttribute("cre2e_applicant_guid").setValue(ownerInfo[0].id);
         }else{
             formContext.getAttribute("cre2e_applicant_guid").setValue("");
         }
