@@ -100,3 +100,49 @@
         formContext.getAttribute("cre2e_amount_in_decimal").setValue(Amount);
         //console.log(Amount);
     }
+
+    function checkAmountExceedingOrNot(executionContext){
+        const formContext = executionContext.getFormContext();
+        const userRole = getSecurityRole();
+        const amount = formContext.getAttribute("cre2e_amount").getValue();
+            if(userRole == "salesemploy"){
+                if(amount > 50000){
+                    alert("Exceeding the amount limit!\nNote:The highest limit of amount for sales employee is 50,000 rupees.");
+                    formContext.getAttribute("cre2e_amount").setValue(null);
+                }
+            }else if(userRole == "managergrsmodified"){
+                if(amount > 55000){
+                    alert("Exceeding the amount limit!\nNote:The highest limit of amount for manager is 55,000 rupees.");
+                    formContext.getAttribute("cre2e_amount").setValue(null);
+                }
+            }else if(userRole == "headmanagergrsmodified"){
+                if(amount > 60000){
+                    alert("Exceeding the amount limit!\nNote:The highest limit of amount for head manager is 60,000 rupees.");
+                    formContext.getAttribute("cre2e_amount").setValue(null);
+                }
+            }
+
+        function getSecurityRole(){                                 /*<---Nested/local function1.*/
+            var userRole;
+            var userRoles=Xrm.Utility.getGlobalContext().userSettings;   /*<--------Fetching User Security roles.*/
+            if(Object.keys(userRoles.roles._collection).length>0)
+            {
+                for ( var rolidcollection in userRoles.roles._collection)
+                {
+                   var currentUserRole= Xrm.Utility.getGlobalContext().userSettings.roles._collection[rolidcollection].name;    
+                   if(currentUserRole.toLowerCase()=="salesemploy")
+                   {
+                       userRole = currentUserRole.toLowerCase();
+                       break;
+                   }else if(currentUserRole.toLowerCase()=="managergrsmodified"){
+                       userRole = currentUserRole.toLowerCase();
+                       break;
+                   }else if(currentUserRole.toLowerCase()=="headmanagergrsmodified"){
+                       userRole = currentUserRole.toLowerCase();
+                       break;
+                   }
+                }
+            }
+           return userRole;  
+        }
+    }

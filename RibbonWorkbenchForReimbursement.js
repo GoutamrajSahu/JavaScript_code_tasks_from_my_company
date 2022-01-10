@@ -100,15 +100,16 @@ function setApprovalStatus(executionContext){
                 });
             }, function() { alert("Saving Failed!"); });
         }else if(amount > 50000){
-            formContext.getAttribute("statuscode").setValue(287370001);
-            const date = new Date();
-            formContext.getAttribute("cre2e_initiated_date").setValue(date);
-            Xrm.Page.data.save().then(function() { 
-                alert("Reimbursement Rejected.");
-                formControls.forEach(element => {
-                    element.setDisabled(true);
-                });
-            }, function() { alert("Saving Failed!"); });
+            //formContext.getAttribute("statuscode").setValue(287370001);
+            alert("Exceeding the amount limit, So can't send for approval.\nNote:The highest limit of amount for sales employee is 50,000 rupees.");
+            //const date = new Date();
+            //formContext.getAttribute("cre2e_initiated_date").setValue(date);
+            // Xrm.Page.data.save().then(function() { 
+            //     alert("Reimbursement Rejected.");
+            //     formControls.forEach(element => {
+            //         element.setDisabled(true);
+            //     });
+            // }, function() { alert("Saving Failed!"); });
         }else{
             formContext.getAttribute("statuscode").setValue(287370000);
             const date = new Date();
@@ -145,15 +146,16 @@ function setApprovalStatus(executionContext){
                 });
             }, function() { alert("Saving Failed!"); });
         }else if(amount > 55000){
-            formContext.getAttribute("statuscode").setValue(287370001);
-            const date = new Date();
-            formContext.getAttribute("cre2e_initiated_date").setValue(date);
-            Xrm.Page.data.save().then(function() { 
-                alert("Reimbursement Rejected.");
-                formControls.forEach(element => {
-                    element.setDisabled(true);
-                });
-            }, function() { alert("Saving Failed!"); });
+            alert("Exceeding the amount limit, So can't send for approval.\nNote:The highest limit of amount for manager is 55,000 rupees.");
+            // formContext.getAttribute("statuscode").setValue(287370001);
+            // const date = new Date();
+            // formContext.getAttribute("cre2e_initiated_date").setValue(date);
+            // Xrm.Page.data.save().then(function() { 
+            //     alert("Reimbursement Rejected.");
+            //     formControls.forEach(element => {
+            //         element.setDisabled(true);
+            //     });
+            // }, function() { alert("Saving Failed!"); });
         }else{
             formContext.getAttribute("statuscode").setValue(287370000);
             const date = new Date();
@@ -170,15 +172,16 @@ function setApprovalStatus(executionContext){
     function saveAndCheckForApproveForHeadManager(formContext){     /*<---Nested/local function3.*/
         let formControls = formContext.ui.controls;
        if(amount > 60000){
-            formContext.getAttribute("statuscode").setValue(287370001);
-            const date = new Date();
-            formContext.getAttribute("cre2e_initiated_date").setValue(date);
-            Xrm.Page.data.save().then(function() { 
-                alert("Reimbursement Rejected.");
-                formControls.forEach(element => {
-                    element.setDisabled(true);
-                });
-            }, function() { alert("Saving Failed!"); });
+        alert("Exceeding the amount limit, So can't send for approval.\nNote:The highest limit of amount for head manager is 60,000 rupees.");
+            // formContext.getAttribute("statuscode").setValue(287370001);
+            // const date = new Date();
+            // formContext.getAttribute("cre2e_initiated_date").setValue(date);
+            // Xrm.Page.data.save().then(function() { 
+            //     alert("Reimbursement Rejected.");
+            //     formControls.forEach(element => {
+            //         element.setDisabled(true);
+            //     });
+            // }, function() { alert("Saving Failed!"); });
         }else{
             formContext.getAttribute("statuscode").setValue(287370000);
             const date = new Date();
