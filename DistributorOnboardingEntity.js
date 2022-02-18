@@ -38,17 +38,34 @@ function ApprovalButton(executionContext){
     let NationalHeadLookupId =  Xrm.Page.getAttribute("zx_nationalhead").getValue()[0].id;
     
     if(LogInUserId === StateHeadLookupId){
+        let answer = window.confirm("Are you sure to approve?\nWarning: Can't change the Status after it gets approved.");
+        if (answer) {
         formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120002);
         checkStatus(formContext);
+        Xrm.Page.data.save().then(function() {
+            alert("Approved.");
+        }, function() { alert("Saving Failed!"); });
+        }else{
+            //Do Nothing.
+        }
+        
     }else if(LogInUserId === ZonalHeadLookupId){
         let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
 
-            if(ApprovalStatusStateHead != 425120002){
-                alert("Pending approval for state head.");
+        if(ApprovalStatusStateHead != 425120002){
+            alert("Pending approval for state head.");
+        }else{
+            let answer = window.confirm("Are you sure to approve?\nWarning: Can't change the Status after it gets approved.");
+            if (answer) {
+            formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120002);
+            checkStatus(formContext);
+            Xrm.Page.data.save().then(function() {
+                alert("Approved.");
+            }, function() { alert("Saving Failed!"); });
             }else{
-                formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120002);
-                checkStatus(formContext);
+                //Do Nothing.
             }
+        }
 
     }else if(LogInUserId === AccountsLookupId){
         let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
@@ -59,8 +76,16 @@ function ApprovalButton(executionContext){
         }else if(ApprovalStatusZonalHead != 425120002){
             alert("Pending approval for zonal head.");
         }else{
+            let answer = window.confirm("Are you sure to approve?\nWarning: Can't change the Status after it gets approved.");
+            if (answer) {
             formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120002);
             checkStatus(formContext);
+            Xrm.Page.data.save().then(function() {
+                alert("Approved.");
+            }, function() { alert("Saving Failed!"); });
+            }else{
+                    //Do Nothing.
+            }
         }
 
     }else if(LogInUserId === SupplyChainLookupId){
@@ -75,8 +100,16 @@ function ApprovalButton(executionContext){
         }else if(ApprovalStatusAccounts != 425120002){
             alert("Pending approval for Accounts.");
         }else{
+            let answer = window.confirm("Are you sure to approve?\nWarning: Can't change the Status after it gets approved.");
+            if (answer) {
             formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120002);
             checkStatus(formContext);
+            Xrm.Page.data.save().then(function() {
+            alert("Approved.");
+            }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
         }
 
     }else if(LogInUserId === NationalHeadLookupId){
@@ -94,8 +127,16 @@ function ApprovalButton(executionContext){
         }else if(ApprovalStatusSupplyChain != 425120002){
             alert("Pending approval for Supply Chain.");
         }else{
+            let answer = window.confirm("Are you sure to approve?\nWarning: Can't change the Status after it gets approved.");
+            if (answer) {
             formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120002);
             checkStatus(formContext);
+            Xrm.Page.data.save().then(function() {
+                alert("Approved.");
+            }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
         }
     }
 
@@ -139,24 +180,64 @@ function rejectBtn(executionContext){
     
     if(LogInUserId === StateHeadLookupId){
             //alert("gettingStateHead");
-            formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120003);
-            checkStatus(formContext);
+            let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
+            if (answer) {
+                formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120003);
+                checkStatus(formContext);
+                Xrm.Page.data.save().then(function() {
+                    alert("Rejected.");
+                }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
     }else if(LogInUserId === ZonalHeadLookupId){
             //alert("gettingZonalHead");
-            formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120003);
-            checkStatus(formContext);
+            let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
+            if (answer) {
+                formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120003);
+                checkStatus(formContext);
+                Xrm.Page.data.save().then(function() {
+                    alert("Rejected.");
+                }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
     }else if(LogInUserId === AccountsLookupId){
             //alert("gettingAccount");
-            formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120003);
-            checkStatus(formContext);
+            let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
+            if (answer) {
+                formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120003);
+                checkStatus(formContext);
+                Xrm.Page.data.save().then(function() {
+                    alert("Rejected.");
+                }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
     }else if(LogInUserId === SupplyChainLookupId){
             //alert("gettingSupplyChain");
-            formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
-            checkStatus(formContext);
+            let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
+            if (answer) {
+                formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
+                checkStatus(formContext);
+                Xrm.Page.data.save().then(function() {
+                    alert("Rejected.");
+                }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
     }else if(LogInUserId === NationalHeadLookupId){
             //alert("gettingNationalHead");
-            formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
-            checkStatus(formContext);
+            let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
+            if (answer) {
+                formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
+                checkStatus(formContext);
+                Xrm.Page.data.save().then(function() {
+                    alert("Rejected.");
+                }, function() { alert("Saving Failed!"); });
+            }else{
+                //Do Nothing.
+            }
     }
 
         function checkStatus(formContext){         //<-----------Sub-function of RejectBtn.
