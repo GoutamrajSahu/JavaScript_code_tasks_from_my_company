@@ -23,6 +23,31 @@ function makeStatusApproved(executionContext){
     }
 }
 
+function fieldFunctionalityForStatus(executionContext){
+    const formContext = executionContext.getFormContext();
+    let status = formContext.getAttribute("zx_status").getValue();
+    //debugger;
+    if(status == null){  //<---------------------------------------------------make every approval to draft.
+        formContext.getAttribute("zx_approvalstatusstatehead").setValue(null);
+        formContext.getAttribute("zx_approvalstatuszonalhead").setValue(null);
+        formContext.getAttribute("zx_approvalstatusaccounts").setValue(null);
+        formContext.getAttribute("zx_approvalstatussupplychain").setValue(null);
+        formContext.getAttribute("zx_approvalstatusnationalhead").setValue(null);
+    }else if(status == 425120000){  //<---------------------------------------------------make every approval to draft.
+        formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120000);
+        formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120000);
+        formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120000);
+        formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120000);
+        formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120000);
+    }else if(status == 425120001){  //<---------------------------------------------make every approval to pending for approval.
+        formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120001);
+        formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120001);
+        formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120001);
+        formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120001);
+        formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120001);
+    }
+    console.log(status);
+}
 
 
 function ApprovalButton(executionContext){
@@ -184,6 +209,14 @@ function rejectBtn(executionContext){
             if (answer) {
                 formContext.getAttribute("zx_approvalstatusstatehead").setValue(425120003);
                 checkStatus(formContext);
+                
+                //<----------------------(Reject all below State head)-----------(Start)-------------->//
+                formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
+                //<----------------------(Reject all below State head)-----------(End)---------------->//
+
                 Xrm.Page.data.save().then(function() {
                     alert("Rejected.");
                 }, function() { alert("Saving Failed!"); });
@@ -192,52 +225,117 @@ function rejectBtn(executionContext){
             }
     }else if(LogInUserId === ZonalHeadLookupId){
             //alert("gettingZonalHead");
+        let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
+
+        if(ApprovalStatusStateHead != 425120002){
+            alert("Pending approval for state head.");
+        }else{
             let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
             if (answer) {
                 formContext.getAttribute("zx_approvalstatuszonalhead").setValue(425120003);
                 checkStatus(formContext);
+
+                //<----------------------(Reject all below Zonal head)-----------(Start)-------------->//
+                formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
+                //<----------------------(Reject all below Zonal head)-----------(End)---------------->//
+
                 Xrm.Page.data.save().then(function() {
                     alert("Rejected.");
                 }, function() { alert("Saving Failed!"); });
             }else{
                 //Do Nothing.
             }
+        }
     }else if(LogInUserId === AccountsLookupId){
             //alert("gettingAccount");
+        let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
+        let ApprovalStatusZonalHead = formContext.getAttribute("zx_approvalstatuszonalhead").getValue();
+         
+        if(ApprovalStatusStateHead != 425120002){
+            alert("Pending approval for state head.");
+        }else if(ApprovalStatusZonalHead != 425120002){
+            alert("Pending approval for zonal head.");
+        }else{
             let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
             if (answer) {
                 formContext.getAttribute("zx_approvalstatusaccounts").setValue(425120003);
                 checkStatus(formContext);
+
+                //<----------------------(Reject all below Accounts)-----------(Start)-------------->//
+                formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
+                formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
+                //<----------------------(Reject all below Accounts)-----------(End)---------------->//
+
                 Xrm.Page.data.save().then(function() {
                     alert("Rejected.");
                 }, function() { alert("Saving Failed!"); });
             }else{
                 //Do Nothing.
             }
+        }
     }else if(LogInUserId === SupplyChainLookupId){
             //alert("gettingSupplyChain");
+        let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
+        let ApprovalStatusZonalHead = formContext.getAttribute("zx_approvalstatuszonalhead").getValue();
+        let ApprovalStatusAccounts = formContext.getAttribute("zx_approvalstatusaccounts").getValue();
+
+        if(ApprovalStatusStateHead != 425120002){
+            alert("Pending approval for state head.");
+        }else if(ApprovalStatusZonalHead != 425120002){
+            alert("Pending approval for zonal head.");
+        }else if(ApprovalStatusAccounts != 425120002){
+            alert("Pending approval for Accounts.");
+        }else{
             let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
             if (answer) {
                 formContext.getAttribute("zx_approvalstatussupplychain").setValue(425120003);
                 checkStatus(formContext);
+
+                //<----------------------(Reject all below Supply Chain)-----------(Start)-------------->//
+                formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
+                //<----------------------(Reject all below Supply Chain)-----------(End)---------------->//
+                
                 Xrm.Page.data.save().then(function() {
                     alert("Rejected.");
                 }, function() { alert("Saving Failed!"); });
             }else{
                 //Do Nothing.
             }
+        }
     }else if(LogInUserId === NationalHeadLookupId){
             //alert("gettingNationalHead");
+        let ApprovalStatusStateHead = formContext.getAttribute("zx_approvalstatusstatehead").getValue();
+        let ApprovalStatusZonalHead = formContext.getAttribute("zx_approvalstatuszonalhead").getValue();
+        let ApprovalStatusAccounts = formContext.getAttribute("zx_approvalstatusaccounts").getValue();
+        let ApprovalStatusSupplyChain = formContext.getAttribute("zx_approvalstatussupplychain").getValue();
+
+        if(ApprovalStatusStateHead != 425120002){
+            alert("Pending approval for state head.");
+        }else if(ApprovalStatusZonalHead != 425120002){
+            alert("Pending approval for zonal head.");
+        }else if(ApprovalStatusAccounts != 425120002){
+            alert("Pending approval for Accounts.");
+        }else if(ApprovalStatusSupplyChain != 425120002){
+            alert("Pending approval for Supply Chain.");
+        }else{
             let answer = window.confirm("Are you sure to reject?\nWarning: Can't change the Status after it gets rejected.");
             if (answer) {
                 formContext.getAttribute("zx_approvalstatusnationalhead").setValue(425120003);
                 checkStatus(formContext);
+
+                //<----------------------(Reject all below National Head)-----------(Start)-------------->//
+                //No field available
+                //<----------------------(Reject all below National Head)-----------(End)---------------->//
+
                 Xrm.Page.data.save().then(function() {
                     alert("Rejected.");
                 }, function() { alert("Saving Failed!"); });
             }else{
                 //Do Nothing.
             }
+        }
     }
 
         function checkStatus(formContext){         //<-----------Sub-function of RejectBtn.
